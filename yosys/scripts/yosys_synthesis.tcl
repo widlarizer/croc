@@ -21,7 +21,7 @@ set abc_script [processAbcScript scripts/abc-opt.script]
 # read liberty files and prepare some variables
 source scripts/init_tech.tcl
 
-yosys plugin -i slang.so
+yosys plugin -i /home/emil/pulls/yosys-slang/build/slang.so
 # default from yosys_common.tcl: top_design=croc_chip; sv_flist=../croc.flist
 yosys read_slang --top $top_design -F $sv_flist \
         --compat-mode --keep-hierarchy \
@@ -65,7 +65,15 @@ yosys hierarchy -top $top_design
 yosys check
 yosys proc
 yosys tee -q -o "${rep_dir}/${top_design}_elaborated.rpt" stat
-yosys write_verilog -norename -noexpr -attr2comment ${tmp_dir}/${top_design}_yosys_elaborated.v
+yosys write_verilog -norename -noexpr -attr2comment -defparam ${tmp_dir}/${top_design}_yosys_elaborated.v
+yosys design -save snapshot
+yosys memory
+yosys write_verilog -norename -noexpr -attr2comment -defparam ${tmp_dir}/${top_design}_yosys_elaborated_opensta.v
+cd /home/emil/pulls/croc/openroad
+exec $::env(OPENROAD) -exit -log /home/emil/pulls/croc/yosys/opensta.log /home/emil/pulls/croc/yosys/scripts/expand-sdc.tcl
+cd /home/emil/pulls/croc/yosys/
+yosys design -load snapshot
+exit
 
 # synth - coarse:
 # similar to yosys synth -run coarse -noalumacc
