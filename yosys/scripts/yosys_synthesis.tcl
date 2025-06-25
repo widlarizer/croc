@@ -68,12 +68,17 @@ yosys tee -q -o "${rep_dir}/${top_design}_elaborated.rpt" stat
 yosys write_verilog -norename -noexpr -attr2comment -defparam ${tmp_dir}/${top_design}_yosys_elaborated.v
 yosys design -save snapshot
 yosys memory
+yosys read_verilog -lib -DSIMLIB_NOCHECKS +/simlib.v
+yosys publish
+yosys box_derive -apply
+yosys publish
 yosys write_verilog -norename -noexpr -attr2comment -defparam ${tmp_dir}/${top_design}_yosys_elaborated_opensta.v
+yosys write_verilog -blackboxes -norename -noexpr -attr2comment -defparam ${tmp_dir}/${top_design}_yosys_elaborated_opensta_bb.v
 cd /home/emil/pulls/croc/openroad
-exec $::env(OPENROAD) -exit -log /home/emil/pulls/croc/yosys/opensta.log /home/emil/pulls/croc/yosys/scripts/expand-sdc.tcl
+exec $::env(OPENSTA) -exit /home/emil/pulls/croc/yosys/scripts/expand-sdc.tcl > opensta.log
+exit
 cd /home/emil/pulls/croc/yosys/
 yosys design -load snapshot
-exit
 
 # synth - coarse:
 # similar to yosys synth -run coarse -noalumacc
