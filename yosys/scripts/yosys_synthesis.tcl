@@ -73,7 +73,6 @@ cd /home/emil/pulls/croc/openroad
 exec $::env(OPENSTA) -exit /home/emil/pulls/croc/yosys/scripts/expand-sdc.tcl
 cd /home/emil/pulls/croc/yosys/
 yosys design -load snapshot
-exit
 
 # synth - coarse:
 # similar to yosys synth -run coarse -noalumacc
