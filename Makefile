@@ -11,6 +11,7 @@ PYTHON3   ?= python3
 VERILATOR ?= /foss/tools/bin/verilator
 YOSYS     ?= yosys
 OPENROAD  ?= openroad
+OPENSTA   ?= sta
 KLAYOUT   ?= klayout
 VSIM      ?= vsim
 REGGEN    ?= $(PYTHON3) $(shell $(BENDER) path register_interface)/vendor/lowrisc_opentitan/util/regtool.py

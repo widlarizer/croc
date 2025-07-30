@@ -70,7 +70,7 @@ yosys design -save snapshot
 yosys memory
 yosys write_verilog -norename -noexpr -attr2comment -defparam ${tmp_dir}/${top_design}_yosys_elaborated_opensta.v
 cd /home/emil/pulls/croc/openroad
-exec $::env(OPENROAD) -exit -log /home/emil/pulls/croc/yosys/opensta.log /home/emil/pulls/croc/yosys/scripts/expand-sdc.tcl
+exec $::env(OPENSTA) -exit /home/emil/pulls/croc/yosys/scripts/expand-sdc.tcl
 cd /home/emil/pulls/croc/yosys/
 yosys design -load snapshot
 exit
